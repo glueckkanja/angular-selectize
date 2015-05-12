@@ -109,6 +109,11 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
           selectize.addOption(scope.options)
           selectize.setValue(scope.ngModel)
         }, true);
+
+        scope.$watch('config.placeholder', function(placeholder){
+          selectize.settings.placeholder = placeholder
+          selectize.updatePlaceholder()
+        });
         
         scope.$watchCollection('ngModel', updateSelectize);
         scope.$watch('ngDisabled', toggle);
