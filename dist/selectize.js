@@ -35,17 +35,6 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
         modelCtrl.$setValidity('required', !isInvalid)
       };
 
-      function generateOptions(data){
-        if(!data)
-          return [];
-          
-        data = angular.isArray(data) ? data : [data]
-
-        return $.map(data, function(opt){
-          return typeof opt === 'string' ? createItem(opt) : opt;
-        });
-      }
-
       function updateSelectize(){
         validate();
 
@@ -53,11 +42,6 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
         selectize.$control.toggleClass('ng-invalid', modelCtrl.$invalid)
         selectize.$control.toggleClass('ng-dirty', modelCtrl.$dirty)
         selectize.$control.toggleClass('ng-pristine', modelCtrl.$pristine)
-
-        if( !angular.equals(selectize.items, scope.ngModel) ){
-          selectize.addOption(generateOptions(scope.ngModel))
-          selectize.setValue(scope.ngModel)
-        }
       }
 
       var onChange = config.onChange,
@@ -86,10 +70,6 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
           onOptionAdd.apply(this, arguments);
         }
       }
-
-      // ngModel (ie selected items) is included in this because if no options are specified, we
-      // need to create the corresponding options for the items to be visible
-      scope.options = generateOptions( (scope.options || config.options || scope.ngModel).slice() );
       
       var angularCallback = config.onInitialize;
 
